@@ -53,9 +53,9 @@ export default {
         rotateZ: 0,
       },
       color: {
-        r : 0,
-        g : 0,
-        b : 0, 
+        r : 255,
+        g : 255,
+        b : 255, 
       },
     };
   },
@@ -74,8 +74,32 @@ export default {
   },
   methods: {
     changeBackground() {
-      this.background = "red";
+      this.background = "red"
     },
+    reset(){
+      this.transform.perspective = 0
+      this.transform.rotateX = 0
+      this.transform.rotateY = 0
+      this.transform.rotateZ = 0
+
+      this.color.r = 255
+      this.color.b = 255
+      this.color.g = 255
+    },
+    copy() {
+      const el = document.createElement('textarea')
+
+      el.setAttribute('readonly', '')
+      el.style.position = 'absolute'
+      el.style.left = '-9999px'
+      el.value = `transform: ${this.box.transform}; background: rgba(${this.color.r},${this.color.g},${this.color.b},1);`
+
+      document.body.appendChild(el)
+      el.select()
+      document.execCommand('copy')
+      alert("Copied Item !")
+      document.body.removeChild(el)
+    }
   },
 };
 </script>
