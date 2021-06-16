@@ -4,65 +4,84 @@
     <main>
       <section class="settings">
         <div class="settings-container">
-          <label>perspective: {{perspective}}px;</label>
-          <input type="range" min="0" max="999" v-model="perspective" />
+          <label>perspective: {{ transform.perspective }}px;</label>
+          <input type="range" min="0" max="999" v-model="transform.perspective" />
 
-          <label>rotateX: {{rotateX}}deg; </label>
-          <input type="range" min="-180" max="180" v-model="rotateX" />
+          <label>rotateX: {{ transform.rotateX }}deg; </label>
+          <input type="range" min="-180" max="180" v-model="transform.rotateX" />
 
-          <label>rotateY: {{rotateY}}deg; </label>
-          <input type="range" min="-180" max="180" v-model="rotateY" />
+          <label>rotateY: {{ transform.rotateY }}deg; </label>
+          <input type="range" min="-180" max="180" v-model="transform.rotateY" />
 
-          <label>rotateZ: {{rotateZ}}deg; </label>
-          <input type="range" min="-180" max="180" v-model="rotateZ" />
+          <label>rotateZ: {{ transform.rotateZ }}deg; </label>
+          <input type="range" min="-180" max="180" v-model="transform.rotateZ" />
+        </div>
+        <div class="settings-container">
+          <label>R: {{ color.r }};</label>
+          <input type="range" min="0" max="255" v-model="color.r" />
 
+           <label>G: {{ color.g }}px;</label>
+          <input type="range" min="0" max="255" v-model="color.g" />
+
+           <label>B: {{ color.b }}px;</label>
+          <input type="range" min="0" max="255" v-model="color.b" />
+        </div>
+        
+        <div class="buttons-container">
           <button type="button" @click.prevent="reset">Reset</button>
           <button type="button" @click.prevent="copy">Copy</button>
         </div>
       </section>
-      <!-- <section class="output">
-        <div class="box-container">
-          <div class="box" :style="box"></div>
-        </div>
-      </section> -->
-      <Box :box="box"/>
+      <Box :box="box" />
     </main>
-
   </div>
 </template>
 
 <script>
-import Box from './components/Box.vue'
+import Box from "./components/Box.vue";
 export default {
   name: "App",
-  components:{
+  components: {
     Box
   },
-  data(){
-    return{
-      perspective: 100,
-      rotateX:0,
-      rotateY:0,
-      rotateZ:0
-    }
+  data() {
+    return {
+      transform: {
+        perspective: 100,
+        rotateX: 0,
+        rotateY: 0,
+        rotateZ: 0,
+      },
+      color: {
+        r : 0,
+        g : 0,
+        b : 0, 
+      },
+    };
   },
   computed: {
-    box(){
+    box() {
       return {
-        transform : `
-          perspective(${this.perspective}px)
-          rotateX(${this.rotateX}deg)
-          rotateY(${this.rotateY}deg)
-          rotateZ(${this.rotateZ}deg)
-        `
-      }
-    }
-  }
+        transform: `
+          perspective(${this.transform.perspective}px)
+          rotateX(${this.transform.rotateX}deg)
+          rotateY(${this.transform.rotateY}deg)
+          rotateZ(${this.transform.rotateZ}deg)
+        `,
+        background: `rgba(${this.color.r},${this.color.g},${this.color.b},1)`
+      };
+    },
+  },
+  methods: {
+    changeBackground() {
+      this.background = "red";
+    },
+  },
 };
 </script>
 
 <style>
-  html {
+html {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
@@ -81,9 +100,9 @@ body {
   margin: 0;
   background: #261c33;
   overflow: hidden;
-  display: flex; 
-  align-items: center; 
-  justify-content: center 
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 h2 {
@@ -102,7 +121,7 @@ main {
   font-family: monospace, sans-serif;
   font-size: 22px;
 }
-main label{
+main label {
   display: block;
 }
 main input[type="range"] {
@@ -111,13 +130,22 @@ main input[type="range"] {
   width: 200px;
 }
 section.settings {
-  width: 50%;
+  display:flex;
+  align-items: center;
   z-index: 2;
+}
+.settings-container{
+  margin-left: 15px;
+}
+.buttons-container{
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
 }
 .box-container {
   padding: 50px;
   border: 1px solid #8d81f3;
-  margin-left: 50px;
+  margin-left: 15px;
 }
 .box {
   width: 150px;
@@ -133,10 +161,11 @@ button {
   padding: 10px;
   outline: none;
   border: none;
-  margin-right: 10px;
+  margin-top: 15px;
 }
 
-label{
+label {
   color: #fff;
+  font-size: 16px;
 }
 </style>
